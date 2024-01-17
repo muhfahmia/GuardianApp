@@ -17,7 +17,7 @@ struct EmployeeView: View {
     let router: EmployeeRouter
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ZStack {
                 if vm.isLoading {
                     progressView
@@ -28,52 +28,53 @@ struct EmployeeView: View {
                         .foregroundStyle(.red)
                 } else {
                     List(vm.allEmployee, id: \.empID) { emplo in
-                            Button {
-                                vm.employee = emplo
-                                showUpdate.toggle()
-                            } label: {
-                                HStack {
-                                    AnimatedImage(url: URL(string: emplo.profileImage))
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 75, height: 75)
-                                        .cornerRadius(37.5)
-                                    VStack(alignment: .leading) {
-                                        Text(emplo.name)
-                                            .font(.headline)
-                                        Text(emplo.job)
-                                            .font(.subheadline)
-                                    }
-                                    Spacer()
-                                    
-                                    Button (action: {
-                                        employeeDelete = emplo
-                                        showAlertDelete = true
-                                    }, label:  {
-                                        Image(systemName: "trash.circle.fill")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .tint(.red)
-                                            .opacity(0.65)
-                                            .frame(width: 45, height: 45)
-                                    })
-                                    .alert(isPresented: $showAlertDelete) {
-                                        Alert(
-                                            title: Text("Are you sure you want to delete this?"),
-                                            message: Text("There is no undo"),
-                                            primaryButton: .destructive(Text("Delete")) {
-                                                vm.deleteEmployee(emp: employeeDelete)
-                                            },
-                                            secondaryButton: .cancel()
-                                        )
-                                    }
+                        HStack {
+                            HStack {
+                                AnimatedImage(url: URL(string: emplo.profileImage))
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 75, height: 75)
+                                    .cornerRadius(37.5)
+                                VStack(alignment: .leading) {
+                                    Text(emplo.name)
+                                        .font(.headline)
+                                    Text(emplo.job)
+                                        .font(.subheadline)
                                 }
                             }
-                            .tint(.black)
-                            .fullScreenCover(isPresented: $showUpdate, content: {
-                                router.routeToEmployeeUpdate(vm: vm)
-                            })
-                        
+                            .onTapGesture {
+                                vm.employee = emplo
+                                showUpdate.toggle()
+                            }
+                            Spacer()
+                            
+                            Button {
+                                employeeDelete = emplo
+                                showAlertDelete = true
+                            } label:  {
+                                Image(systemName: "trash.circle.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .foregroundColor(.red)
+                                    .opacity(0.65)
+                                    .frame(width: 45, height: 45)
+                            }
+                            .alert(isPresented: $showAlertDelete) {
+                                Alert(
+                                    title: Text("Are you sure you want to delete this?"),
+                                    message: Text("There is no undo"),
+                                    primaryButton: .destructive(Text("Delete")) {
+                                        vm.deleteEmployee(emp: employeeDelete)
+                                    },
+                                    secondaryButton: .cancel()
+                                )
+                            }
+                            .frame(width: 45, height: 45)
+                        }
+                        .tint(.black)
+                        .fullScreenCover(isPresented: $showUpdate, content: {
+                            router.routeToEmployeeUpdate(vm: vm)
+                        })
                     }
                 }
             }
@@ -91,7 +92,7 @@ struct EmployeeView: View {
                 }
             }
             .onAppear {
-                vm.getEmployee()
+                    vm.getEmployee()
             }
         }
     }

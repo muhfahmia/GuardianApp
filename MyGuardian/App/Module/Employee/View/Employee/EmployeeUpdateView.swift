@@ -34,24 +34,28 @@ struct EmployeeUpdateView: View {
             Text("Update Employee")
                 .font(.largeTitle)
                 .fontWeight(.bold)
+            if vm.isLoadingUpdate {
+                progressView
+            } else {
             
-            TextField("Enter your Name", text: $vm.employee.name)
-                .textFieldStyle(.roundedBorder)
-            TextField("Enter your Job", text: $vm.employee.job)
-                .textFieldStyle(.roundedBorder)
-            
-            Button("Submit") {
-                if !vm.employee.name.isEmpty && !vm.employee.job.isEmpty {
-                    vm.updateEmployee(emp: vm.employee)
-                    dismiss()
-                } else {
-                    showAlertValidation.toggle()
+                TextField("Enter your Name", text: $vm.employee.name)
+                    .textFieldStyle(.roundedBorder)
+                TextField("Enter your Job", text: $vm.employee.job)
+                    .textFieldStyle(.roundedBorder)
+                
+                Button("Submit") {
+                    if !vm.employee.name.isEmpty && !vm.employee.job.isEmpty {
+                        vm.updateEmployee(emp: vm.employee)
+                        dismiss()
+                    } else {
+                        showAlertValidation.toggle()
+                    }
                 }
-            }
-            .tint(.black)
-            .buttonStyle(.bordered)
-            .alert("Please fill form value needed", isPresented: $showAlertValidation) {
-                Button("OK", role: .cancel) { }
+                .tint(.black)
+                .buttonStyle(.bordered)
+                .alert("Please fill form value needed", isPresented: $showAlertValidation) {
+                    Button("OK", role: .cancel) { }
+                }
             }
         }
         .padding(.horizontal, 40)
@@ -60,6 +64,17 @@ struct EmployeeUpdateView: View {
         .onAppear {
             vm.detailEmployee(emp: vm.employee)
         }
+    }
+    
+    var progressView: some View {
+        Rectangle()
+            .fill(.gray)
+            .opacity(0.2)
+            .frame(width: 100, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
+            .cornerRadius(20)
+            .overlay(
+                ProgressView()
+            )
     }
 }
 

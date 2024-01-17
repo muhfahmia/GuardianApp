@@ -11,11 +11,12 @@ import AVFoundation
 
 struct QRScanView: View {
     
+    @Environment(\.dismiss) private var dismiss
     @ObservedObject var vm: QRScanPresenter
     @State var isPresentingScanner: Bool = false
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             VStack {
                 Button("Scan QR") {
                     isPresentingScanner.toggle()
@@ -34,11 +35,20 @@ struct QRScanView: View {
                 vm.checkCameraPermission()
             }
             .sheet(isPresented: $isPresentingScanner) {
-                CodeScannerView(codeTypes: [.qr]) { response in
-                    if case let .success(result) = response {
-                        vm.stringQR = result.string
-                        isPresentingScanner = false
+                if vm.isGrant {
+                    CodeScannerView(codeTypes: [.qr]) { response in
+                        if case let .success(result) = response {
+                            vm.stringQR = result.string
+                            isPresentingScanner = false
+                        }
                     }
+                } else {
+                    Text("Please enable your camera in the Settings")
+                    Link("Open settings", destination: URL(string: UIApplication.openSettingsURLString)!)
+                        .onTapGesture {
+                            dismiss()
+                        }
+                    
                 }
             }
         }
