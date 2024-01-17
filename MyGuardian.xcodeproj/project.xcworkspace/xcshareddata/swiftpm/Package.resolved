@@ -1,0 +1,41 @@
+{
+  "pins" : [
+    {
+      "identity" : "codescanner",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/twostraws/CodeScanner",
+      "state" : {
+        "revision" : "bf5d7087015620b250ee6c865b3c9039fc159d1a",
+        "version" : "2.3.3"
+      }
+    },
+    {
+      "identity" : "jailbreakdetector.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/conmulligan/JailbreakDetector.swift.git",
+      "state" : {
+        "revision" : "c0c30a0c944397cf8b7fa2b13226a6f5ce519dad",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "sdwebimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImage.git",
+      "state" : {
+        "revision" : "59730af512c06fb569c119d737df4c1c499e001d",
+        "version" : "5.18.10"
+      }
+    },
+    {
+      "identity" : "sdwebimageswiftui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImageSwiftUI",
+      "state" : {
+        "revision" : "261b6cec35686d2dc192b809ab50742b4502a73b",
+        "version" : "2.2.6"
+      }
+    }
+  ],
+  "version" : 2
+}
