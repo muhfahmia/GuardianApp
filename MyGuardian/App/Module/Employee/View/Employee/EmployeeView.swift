@@ -48,33 +48,31 @@ struct EmployeeView: View {
                             }
                             Spacer()
                             
-                            Button {
-                                employeeDelete = emplo
-                                showAlertDelete = true
-                            } label:  {
-                                Image(systemName: "trash.circle.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .foregroundColor(.red)
-                                    .opacity(0.65)
-                                    .frame(width: 45, height: 45)
-                            }
-                            .alert(isPresented: $showAlertDelete) {
-                                Alert(
-                                    title: Text("Are you sure you want to delete this?"),
-                                    message: Text("There is no undo"),
-                                    primaryButton: .destructive(Text("Delete")) {
-                                        vm.deleteEmployee(emp: employeeDelete)
-                                    },
-                                    secondaryButton: .cancel()
-                                )
-                            }
-                            .frame(width: 45, height: 45)
+                            Image(systemName: "trash.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .foregroundColor(.red)
+                                .opacity(0.65)
+                                .frame(width: 45, height: 45)
+                                .onTapGesture {
+                                    employeeDelete = emplo
+                                    showAlertDelete = true
+                                }
                         }
                         .tint(.black)
-                        .fullScreenCover(isPresented: $showUpdate, content: {
-                            router.routeToEmployeeUpdate(vm: vm)
-                        })
+                    }
+                    .fullScreenCover(isPresented: $showUpdate) {
+                        router.routeToEmployeeUpdate(vm: vm)
+                    }
+                    .alert(isPresented: $showAlertDelete) {
+                        Alert(
+                            title: Text("Are you sure you want to delete this?"),
+                            message: Text("There is no undo"),
+                            primaryButton: .destructive(Text("Delete")) {
+                                vm.deleteEmployee(emp: employeeDelete)
+                            },
+                            secondaryButton: .cancel()
+                        )
                     }
                 }
             }
