@@ -36,11 +36,17 @@ struct QRScanView: View {
             }
             .sheet(isPresented: $isPresentingScanner) {
                 if vm.isGrant {
-                    CodeScannerView(codeTypes: [.qr]) { response in
-                        if case let .success(result) = response {
-                            vm.stringQR = result.string
-                            isPresentingScanner = false
+                    VStack {
+                        Text("Scan your QR")
+                            .font(.title)
+                        CodeScannerView(codeTypes: [.qr]) { response in
+                            if case let .success(result) = response {
+                                vm.stringQR = result.string
+                                isPresentingScanner = false
+                            }
                         }
+                        .frame(width: 300, height: 300)
+                        .cornerRadius(25)
                     }
                 } else {
                     Text("Please enable your camera in the Settings")
@@ -57,6 +63,7 @@ struct QRScanView: View {
     
 }
 
-//#Preview {
-//    QRScanView()
-//}
+#Preview {
+    let presenter: QRScanPresenter = AppAssembler.shared.resolve()
+    return QRScanView(vm: presenter)
+}
