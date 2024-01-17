@@ -42,10 +42,6 @@ struct EmployeeView: View {
                                         .font(.subheadline)
                                 }
                             }
-                            .onTapGesture {
-                                vm.employee = emplo
-                                showUpdate.toggle()
-                            }
                             Spacer()
                             
                             Image(systemName: "trash.circle.fill")
@@ -60,6 +56,10 @@ struct EmployeeView: View {
                                 }
                         }
                         .tint(.black)
+                        .onTapGesture {
+                            vm.employee = emplo
+                            showUpdate.toggle()
+                        }
                     }
                     .fullScreenCover(isPresented: $showUpdate) {
                         router.routeToEmployeeUpdate(vm: vm)

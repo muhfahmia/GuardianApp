@@ -53,9 +53,6 @@ struct EmployeeUpdateView: View {
                 }
                 .tint(.black)
                 .buttonStyle(.bordered)
-                .alert("Please fill form value needed", isPresented: $showAlertValidation) {
-                    Button("OK", role: .cancel) { }
-                }
             }
         }
         .padding(.horizontal, 40)
@@ -63,6 +60,9 @@ struct EmployeeUpdateView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear {
             vm.detailEmployee(emp: vm.employee)
+        }
+        .alert("Please fill form value needed", isPresented: $showAlertValidation) {
+            Button("OK", role: .cancel) { }
         }
     }
     
